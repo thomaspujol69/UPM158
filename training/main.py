@@ -5,6 +5,7 @@ import torch.optim as optim
 import torchvision.datasets as datasets
 import torchvision.transforms as transforms
 from autoencoder import Autoencoder
+from dataset import Dataset
 
 # Initialize the autoencoder
 model = Autoencoder()
@@ -16,18 +17,16 @@ transform = transforms.Compose([
 ])
 
 # Load dataset
-train_dataset = datasets.Flowers102(root='flowers', 
-                                    split='train', 
-                                    transform=transform, 
-                                    download=True)
-test_dataset = datasets.Flowers102(root='flowers', 
-                                split='test', 
+train_dataset = datasets.Dataset(split='train',
+                                transform=transform,
+                                download=True)
+test_dataset = datasets.Dataset(split='test',
                                 transform=transform)
 # Define the dataloader
-train_loader = torch.utils.data.DataLoader(dataset=train_dataset, 
-                                        batch_size=128, 
+train_loader = torch.utils.data.DataLoader(dataset=train_dataset,
+                                        batch_size=128,
                                         shuffle=True)
-test_loader = torch.utils.data.DataLoader(dataset=test_dataset, 
+test_loader = torch.utils.data.DataLoader(dataset=test_dataset,
                                         batch_size=128)
 
 # Move the model to GPU

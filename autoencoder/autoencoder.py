@@ -1,34 +1,35 @@
+"""Autoencoder to autoencode images (512x512) to detect anomalies"""
 import torch.nn as nn
 
 # Define the autoencoder architecture
 class Autoencoder(nn.Module):
-    """Autoencoder"""
+    """Autoencoder class"""
     def __init__(self):
         super(Autoencoder, self).__init__()
         self.encoder = nn.Sequential(
-            nn.Conv2d(3, 16, kernel_size=3, stride=1, padding=1),
+            nn.Linear(512*512, 128*128),
             nn.ReLU(),
-            nn.MaxPool2d(kernel_size=2, stride=2),
-            nn.Conv2d(16, 8, kernel_size=3, stride=1, padding=1),
+            nn.Conv2d(128*128, 128*128, kernel_size=3, stride=1, padding=1),
             nn.ReLU(),
-            nn.MaxPool2d(kernel_size=2, stride=2)
+            nn.Conv2d(128*128, 64*64, kernel_size=3, stride=1, padding=1),
+            nn.ReLU(),
+            nn.Linear(64*64, 32*32),
+            nn.ReLU(),
         )
         self.decoder = nn.Sequential(
-            nn.ConvTranspose2d(8, 16, 
-                            kernel_size=3, 
-                            stride=2, 
-                            padding=1, 
-                            output_padding=1),
+            nn.Linear(32*32, 64*64),
             nn.ReLU(),
-            nn.ConvTranspose2d(16, 3, 
-                            kernel_size=3, 
-                            stride=2, 
-                            padding=1, 
-                            output_padding=1),
+            nn.Conv2d(64*64, 128*128, kernel_size=3, stride=1, padding=1),
+            nn.ReLU(),
+            nn.Conv2d(128*128, 128*128, kernel_size=3, stride=1, padding=1),
+            nn.ReLU(),
+            nn.Conv2d(128*128, 512*512, kernel_size=3, stride=1, padding=1),
+            nn.ReLU(),
             nn.Sigmoid()
         )
 
     def forward(self, x):
+        """Forward pass of the autoencoder"""
         x = self.encoder(x)
         x = self.decoder(x)
         return x
