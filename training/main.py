@@ -1,8 +1,9 @@
 """Main module for training dataset"""
 
 import torch
+import tqdm
+import datetime
 import torch.optim as optim
-import torchvision.datasets as datasets
 import torchvision.transforms as transforms
 from autoencoder import Autoencoder
 from dataset import Dataset
@@ -17,10 +18,9 @@ transform = transforms.Compose([
 ])
 
 # Load dataset
-train_dataset = datasets.Dataset(split='train',
-                                transform=transform,
-                                download=True)
-test_dataset = datasets.Dataset(split='test',
+train_dataset = Dataset(split='train',
+                                transform=transform)
+test_dataset = Dataset(split='test',
                                 transform=transform)
 # Define the dataloader
 train_loader = torch.utils.data.DataLoader(dataset=train_dataset,
@@ -35,12 +35,13 @@ print(device)
 model.to(device)
 
 # Define the loss function and optimizer
-criterion = nn.MSELoss()
+criterion = torch.nn.MSELoss()
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 
 # Train the autoencoder
-num_epochs = 50
-for epoch in range(num_epochs):
+num_epochs = 5
+pbar = tqdm.tqdm(range(num_epochs))
+for epoch in pbar:
     for data in train_loader:
         img, _ = data
         img = img.to(device)
@@ -49,8 +50,7 @@ for epoch in range(num_epochs):
         loss = criterion(output, img)
         loss.backward()
         optimizer.step()
-    if epoch % 5== 0:
-        print('Epoch [{}/{}], Loss: {:.4f}'.format(epoch+1, num_epochs, loss.item()))
+    pbar.set_description(f"Epoch {epoch+1}/{num_epochs} Loss: {loss.item():.4f}")
 
 # Save the model
-torch.save(model.state_dict(), 'conv_autoencoder.pth')
+torch.save(model.state_dict(), f"autoencoder/models_{datetime.datetime.now()}.pth")
