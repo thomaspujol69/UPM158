@@ -13,7 +13,7 @@ model = Autoencoder()
 
 # Define transform
 transform = transforms.Compose([
-    transforms.Resize((64, 64)),
+    transforms.Resize((4096, 4096)),
     transforms.ToTensor(),
 ])
 
