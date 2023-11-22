@@ -7,24 +7,26 @@ class Autoencoder(nn.Module):
     def __init__(self):
         super(Autoencoder, self).__init__()
         self.encoder = nn.Sequential(
-            nn.Linear(128*128*3, 64*64),
+            nn.Conv2d(3, 128, kernel_size=10, stride=1, padding=1),
             nn.ReLU(),
-            nn.Conv2d(64*64, 64*64, kernel_size=3, stride=1, padding=1),
+            nn.Conv2d(128, 256, kernel_size=3, stride=1, padding=1),
             nn.ReLU(),
-            nn.Conv2d(64*64, 32*32, kernel_size=3, stride=1, padding=1),
+            nn.Flatten(),
+            nn.Linear(7936128, 128),
             nn.ReLU(),
-            nn.Linear(32*32, 16*16),
+            nn.Linear(128, 64),
             nn.ReLU(),
         )
         self.decoder = nn.Sequential(
-            nn.Linear(16*16, 32*32),
+            nn.Linear(64, 128),
             nn.ReLU(),
-            nn.Conv2d(32*32, 64*64, kernel_size=3, stride=1, padding=1),
+            nn.Linear(128, 7936128),
             nn.ReLU(),
-            nn.Conv2d(64*64, 64*64, kernel_size=3, stride=1, padding=1),
+            nn.Unflatten(1, (9, 83, 83)),
             nn.ReLU(),
-            nn.Conv2d(64*64, 128*128*3, kernel_size=3, stride=1, padding=1),
+            nn.ConvTranspose2d(256, 128, kernel_size=10, stride=2, padding=1, output_padding=1),
             nn.ReLU(),
+            nn.ConvTranspose2d(128, 3, kernel_size=10, stride=2, padding=1, output_padding=1),
             nn.Sigmoid()
         )
 
