@@ -55,7 +55,7 @@ torch.save(model.state_dict(), open(f"autoencoder/models/{datetime.datetime.now(
 with open(f"autoencoder/models/{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.txt", 'w') as f:
     f.write(f"Epochs: {NUM_EPOCHS}\n")
     f.write(f"Loss: {loss.item():.4f}\n\n")
-    f.write(f"Layers: \n")
+    f.write("Layers: \n")
     for layer in model.encoder:
         f.write(f"    {layer}\n")
 

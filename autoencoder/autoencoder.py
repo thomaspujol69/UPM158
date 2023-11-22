@@ -12,7 +12,7 @@ class Autoencoder(nn.Module):
             nn.Conv2d(128, 256, kernel_size=3, stride=1, padding=1),
             nn.ReLU(),
             nn.Flatten(),
-            nn.Linear(7936128, 128),
+            nn.Linear(15872256, 128),
             nn.ReLU(),
             nn.Linear(128, 64),
             nn.ReLU(),
@@ -20,7 +20,7 @@ class Autoencoder(nn.Module):
         self.decoder = nn.Sequential(
             nn.Linear(64, 128),
             nn.ReLU(),
-            nn.Linear(128, 7936128),
+            nn.Linear(128, 15872256),
             nn.ReLU(),
             nn.Unflatten(1, (9, 83, 83)),
             nn.ReLU(),
