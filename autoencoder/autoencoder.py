@@ -22,7 +22,7 @@ class Autoencoder(nn.Module):
             nn.ReLU(),
             nn.Linear(128, 12152196),
             nn.ReLU(),
-            nn.Unflatten(1, (9, 83, 83)),
+            nn.Unflatten(1, (196, 83*3, 83*3)),
             nn.ReLU(),
             nn.ConvTranspose2d(196, 128, kernel_size=10, stride=2, padding=1, output_padding=1),
             nn.ReLU(),
