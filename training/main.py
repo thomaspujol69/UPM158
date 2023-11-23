@@ -39,6 +39,7 @@ optimizer = optim.Adam(model.parameters(), lr=0.001)
 # Train the autoencoder
 NUM_EPOCHS = 5
 pbar = tqdm.tqdm(range(NUM_EPOCHS))
+losses = []
 for epoch in pbar:
     for data in train_loader:
         img, _ = data
@@ -49,12 +50,15 @@ for epoch in pbar:
         loss.backward()
         optimizer.step()
     pbar.set_description(f"Epoch {epoch+1}/{NUM_EPOCHS} Loss: {loss.item():.4f}")
+    losses.append(loss.item())
 
 # Save the model
 torch.save(model.state_dict(), open(f"autoencoder/models/{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.pth", 'wb'))
 with open(f"autoencoder/models/{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.txt", 'w') as f:
     f.write(f"Epochs: {NUM_EPOCHS}\n")
-    f.write(f"Loss: {loss.item():.4f}\n\n")
+    f.write("Losses: \n")
+    for loss in losses:
+        f.write(f"    {loss}\n")
     f.write("Layers: \n")
     for layer in model.encoder:
         f.write(f"    {layer}\n")
