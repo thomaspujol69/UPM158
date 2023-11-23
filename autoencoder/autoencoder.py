@@ -7,7 +7,7 @@ class Autoencoder(nn.Module):
     def __init__(self):
         super(Autoencoder, self).__init__()
         num_input_channels = 3
-        c_hid = 2048
+        c_hid = 512
         latent_dim = 128
         self.encoder = nn.Sequential(
             nn.Conv2d(num_input_channels, c_hid, kernel_size=3, padding=1, stride=2),
@@ -21,7 +21,7 @@ class Autoencoder(nn.Module):
             nn.Conv2d(2*c_hid, 2*c_hid, kernel_size=3, padding=1, stride=2),
             nn.ReLU(),
             nn.Flatten(), # Image grid to single feature vector
-            nn.Linear(2*16*c_hid, latent_dim)
+            nn.Linear(2*16*16*c_hid, latent_dim)
         )
         self.decoder = nn.Sequential(
             nn.ConvTranspose2d(2*c_hid, 2*c_hid, kernel_size=3, output_padding=1, padding=1, stride=2),
