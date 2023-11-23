@@ -1,1 +1,2 @@
-import training.main
+#import training.main
+import validate.main
