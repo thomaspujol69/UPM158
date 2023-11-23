@@ -10,30 +10,16 @@ class Autoencoder(nn.Module):
         c_hid = 512
         latent_dim = 128
         self.encoder = nn.Sequential(
-            nn.Conv2d(num_input_channels, c_hid, kernel_size=3, padding=1, stride=2),
-            nn.ReLU(),
-            nn.Conv2d(c_hid, c_hid, kernel_size=3, padding=1),
-            nn.ReLU(),
-            nn.Conv2d(c_hid, 2*c_hid, kernel_size=3, padding=1, stride=2),
-            nn.ReLU(),
-            nn.Conv2d(2*c_hid, 2*c_hid, kernel_size=3, padding=1),
-            nn.ReLU(),
-            nn.Conv2d(2*c_hid, 2*c_hid, kernel_size=3, padding=1, stride=2),
-            nn.ReLU(),
-            nn.Flatten(), # Image grid to single feature vector
-            nn.Linear(2*16*16*c_hid, latent_dim)
+            nn.Conv2d(num_input_channels, 64, kernel_size=5),
+            nn.ReLU(True),
+            nn.Conv2d(64,32,kernel_size=5),
+            nn.ReLU(True)
         )
         self.decoder = nn.Sequential(
-            nn.ConvTranspose2d(2*16*c_hid, 2*c_hid, kernel_size=3, output_padding=1, padding=1, stride=2),
-            nn.ReLU(),
-            nn.Conv2d(2*c_hid, 2*c_hid, kernel_size=3, padding=1),
-            nn.ReLU(),
-            nn.ConvTranspose2d(2*c_hid, c_hid, kernel_size=3, output_padding=1, padding=1, stride=2),
-            nn.ReLU(),
-            nn.Conv2d(c_hid, c_hid, kernel_size=3, padding=1),
-            nn.ReLU(),
-            nn.ConvTranspose2d(c_hid, num_input_channels, kernel_size=3, output_padding=1, padding=1, stride=2),
-            nn.Tanh()
+            nn.ConvTranspose2d(32,64,kernel_size=5),
+            nn.ReLU(True),
+            nn.ConvTranspose2d(64,num_input_channels,kernel_size=5),
+            nn.ReLU(True)
         )
 
     def forward(self, x):
