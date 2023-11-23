@@ -24,7 +24,7 @@ class Autoencoder(nn.Module):
             nn.Linear(2*16*16*c_hid, latent_dim)
         )
         self.decoder = nn.Sequential(
-            nn.ConvTranspose2d(2*c_hid, 2*c_hid, kernel_size=3, output_padding=1, padding=1, stride=2),
+            nn.ConvTranspose2d(2*16*c_hid, 2*c_hid, kernel_size=3, output_padding=1, padding=1, stride=2),
             nn.ReLU(),
             nn.Conv2d(2*c_hid, 2*c_hid, kernel_size=3, padding=1),
             nn.ReLU(),
