@@ -37,7 +37,7 @@ criterion = torch.nn.MSELoss()
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 
 # Train the autoencoder
-NUM_EPOCHS = 50
+NUM_EPOCHS = 5
 pbar = tqdm.tqdm(range(NUM_EPOCHS))
 losses = []
 for epoch in pbar:
