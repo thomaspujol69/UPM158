@@ -24,7 +24,7 @@ class Sf300Dataset(VisionDataset):
         self._labels = []
         self._image_files = []
         for image_id in glob.glob(str(self._images_folder) + "/*/*.jpg", recursive=True):
-            self._labels.append(0 if split == "train" else 1 if split == "test" else 2)
+            self._labels.append(0)
             self._image_files.append(image_id)
 
 
