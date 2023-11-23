@@ -12,8 +12,9 @@ from dataset import Dataset, Sf300Dataset
 model = Autoencoder()
 
 # Define transform
+RESIZE = 196
 transform = transforms.Compose([
-    transforms.Resize((256, 256)),
+    transforms.Resize((RESIZE, RESIZE)),
     transforms.ToTensor(),
 ])
 
@@ -56,6 +57,7 @@ for epoch in pbar:
 torch.save(model.state_dict(), open(f"autoencoder/models/{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.pth", 'wb'))
 with open(f"autoencoder/models/{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.txt", 'w') as f:
     f.write(f"Epochs: {NUM_EPOCHS}\n")
+    f.write(f"Picture size: {RESIZE}\n")
     f.write("Losses: \n")
     for loss in losses:
         f.write(f"    {loss}\n")
