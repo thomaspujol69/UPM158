@@ -6,7 +6,7 @@ import torch
 import torch.optim as optim
 import torchvision.transforms as transforms
 from autoencoder import Autoencoder
-from dataset import Dataset
+from dataset import Dataset, Sf300Dataset
 
 # Initialize the autoencoder
 model = Autoencoder()
@@ -18,8 +18,8 @@ transform = transforms.Compose([
 ])
 
 # Load dataset
-train_dataset = Dataset(split='train', transform=transform)
-test_dataset = Dataset(split='test', transform=transform)
+train_dataset = Sf300Dataset(split='train', transform=transform, root="/tmp/UPM/sf300/sf300export")
+test_dataset = Sf300Dataset(split='test', transform=transform, root="/tmp/UPM/sf300/sf300export")
 # Define the dataloader
 train_loader = torch.utils.data.DataLoader(dataset=train_dataset,
                                         batch_size=128,
