@@ -8,7 +8,7 @@ class Autoencoder(nn.Module):
         super(Autoencoder, self).__init__()
         num_input_channels = 3
         self.encoder = nn.Sequential(
-            nn.Conv2d(num_input_channels, 128, kernel_size=5),
+            nn.Conv2d(num_input_channels, 128, kernel_size=10),
             nn.ReLU(True),
             nn.Conv2d(128, 64, kernel_size=5),
             nn.ReLU(True),
@@ -20,7 +20,7 @@ class Autoencoder(nn.Module):
             nn.ReLU(True),
             nn.ConvTranspose2d(64, 128, kernel_size=5),
             nn.ReLU(True),
-            nn.ConvTranspose2d(128, num_input_channels, kernel_size=5),
+            nn.ConvTranspose2d(128, num_input_channels, kernel_size=10),
             nn.ReLU(True)
         )
 
