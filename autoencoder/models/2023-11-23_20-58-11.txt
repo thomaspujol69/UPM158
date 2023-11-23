@@ -1,0 +1,15 @@
+Epochs: 5
+Picture size: 196
+Losses: 
+    0.0003456314734648913
+    0.0016960990615189075
+    0.0006751031614840031
+    0.0005026059807278216
+    0.00029540248215198517
+Layers: 
+    Conv2d(3, 128, kernel_size=(10, 10), stride=(1, 1))
+    ReLU(inplace=True)
+    Conv2d(128, 64, kernel_size=(5, 5), stride=(1, 1))
+    ReLU(inplace=True)
+    Conv2d(64, 32, kernel_size=(5, 5), stride=(1, 1))
+    ReLU(inplace=True)
