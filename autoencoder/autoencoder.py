@@ -7,7 +7,7 @@ class Autoencoder(nn.Module):
     def __init__(self):
         super(Autoencoder, self).__init__()
         num_input_channels = 3
-        c_hid = 2048
+        c_hid = 1048576
         latent_dim = 128
         self.encoder = nn.Sequential(
             nn.Conv2d(num_input_channels, c_hid, kernel_size=3, padding=1, stride=2),
