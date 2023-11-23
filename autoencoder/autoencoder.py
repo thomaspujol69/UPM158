@@ -6,28 +6,34 @@ class Autoencoder(nn.Module):
     """Autoencoder class"""
     def __init__(self):
         super(Autoencoder, self).__init__()
+        num_input_channels = 3
+        c_hid = 4096
+        latent_dim = 128
         self.encoder = nn.Sequential(
-            nn.Conv2d(3, 128, kernel_size=10, stride=1, padding=1),
+            nn.Conv2d(num_input_channels, c_hid, kernel_size=3, padding=1, stride=2),
             nn.ReLU(),
-            nn.Conv2d(128, 196, kernel_size=3, stride=1, padding=1),
+            nn.Conv2d(c_hid, c_hid, kernel_size=3, padding=1),
             nn.ReLU(),
-            nn.Flatten(),
-            nn.Linear(7001316, 128),
+            nn.Conv2d(c_hid, 2*c_hid, kernel_size=3, padding=1, stride=2),
             nn.ReLU(),
-            nn.Linear(128, 64),
+            nn.Conv2d(2*c_hid, 2*c_hid, kernel_size=3, padding=1),
             nn.ReLU(),
+            nn.Conv2d(2*c_hid, 2*c_hid, kernel_size=3, padding=1, stride=2),
+            nn.ReLU(),
+            nn.Flatten(), # Image grid to single feature vector
+            nn.Linear(2*16*c_hid, latent_dim)
         )
         self.decoder = nn.Sequential(
-            nn.Linear(64, 128),
+            nn.ConvTranspose2d(2*c_hid, 2*c_hid, kernel_size=3, output_padding=1, padding=1, stride=2),
             nn.ReLU(),
-            nn.Linear(128, 7001316),
+            nn.Conv2d(2*c_hid, 2*c_hid, kernel_size=3, padding=1),
             nn.ReLU(),
-            nn.Unflatten(1, (196, 189, 189)),
+            nn.ConvTranspose2d(2*c_hid, c_hid, kernel_size=3, output_padding=1, padding=1, stride=2), 
             nn.ReLU(),
-            nn.ConvTranspose2d(196, 128, kernel_size=10, stride=2, padding=1, output_padding=1),
+            nn.Conv2d(c_hid, c_hid, kernel_size=3, padding=1),
             nn.ReLU(),
-            nn.ConvTranspose2d(128, 3, kernel_size=10, stride=2, padding=1, output_padding=1),
-            nn.Sigmoid()
+            nn.ConvTranspose2d(c_hid, num_input_channels, kernel_size=3, output_padding=1, padding=1, stride=2),
+            nn.Tanh()
         )
 
     def forward(self, x):
