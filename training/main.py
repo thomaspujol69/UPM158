@@ -19,8 +19,8 @@ transform = transforms.Compose([
 ])
 
 # Load dataset
-train_dataset = Sf300Dataset(split='train', transform=transform, root="/tmp/UPM/sf300/sf300export")
-test_dataset = Sf300Dataset(split='test', transform=transform, root="/tmp/UPM/sf300/sf300export")
+train_dataset = Dataset(split='train', transform=transform, root="/tmp/UPM/dimlrgb")
+test_dataset = Dataset(split='test', transform=transform, root="/tmp/UPM/dimlrgb")
 # Define the dataloader
 train_loader = torch.utils.data.DataLoader(dataset=train_dataset,
                                         batch_size=128,
