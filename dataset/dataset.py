@@ -45,4 +45,4 @@ class Dataset(VisionDataset):
     
     def download(self) -> None:
         """Download the dataset if it doesn't exist already"""
-        raise NotImplementedError("Download not implemented")
+        raise NotImplementedError("Download not implemented. A good dataset to test is OST300")
